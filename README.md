@@ -1,6 +1,7 @@
 # Github Scoring Chrome Extension
 
 [![Build Status](https://travis-ci.org/ngbravo/gitscore.svg?branch=master)](https://travis-ci.org/ngbravo/gitscore)
+[![Coverage Status](https://coveralls.io/repos/github/ngbravo/gitscore/badge.svg?branch=master)](https://coveralls.io/github/ngbravo/gitscore?branch=master)
 
 > Chrome Extension that gives a repository a score based on its health, activity, and growth.
 
