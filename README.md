@@ -55,3 +55,7 @@ You can also distribute the compressed file using the Chrome Developer Dashboard
 ```bash
 gulp package
 ```
+
+## Contributing
+
+Just send a Pull Request and we will review it. Make sure it tackles an Issue. If it doesn't, create the Issue first.
