@@ -12,7 +12,8 @@
     "score"
   ],
   "contributors": [
-    "Nikolas Bravo (https://github.com/ngbravo)"
+    "Nikolas Bravo (https://github.com/ngbravo)",
+    "José Ignacio Navarro (https://github.com/josencv)"
   ],
   "scripts": {
     "test": "mocha \"test/**/*.js\""
