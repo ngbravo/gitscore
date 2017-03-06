@@ -16,7 +16,13 @@ function getScore(){
 
 function writeScore(score){
   var nodeToInsert = getNodeToInsert(score);
+
+  //TODO should find a better way to verify. Maybe using the GitHub API(?)
   var repoTopName = document.getElementsByClassName('public')[0];
+  if(repoTopName === undefined) {
+    repoTopName = document.getElementsByClassName('private')[0];
+  }
+
   var childNodes = repoTopName.childNodes;
   repoTopName.insertBefore(nodeToInsert, repoTopName.firstChild);
 }
