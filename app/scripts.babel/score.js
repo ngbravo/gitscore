@@ -21,8 +21,8 @@ function getScore() {
 }
 
 /**
- * Writes the score to the DOM
- * @param {Number} score The score value
+ * Writes the score block to the DOM
+ * @param {object} score The score values
  */
 function writeScore(score) {
   let nodeToInsert = getNodeToInsert(score);
@@ -38,8 +38,8 @@ function writeScore(score) {
 
 /**
  * Generates the DOM node that will be inserted in the document
- * @param {Number} score The score value
- * @return {Text}
+ * @param {object} score The score values
+ * @return {object} The DOM node to insert
  */
 function getNodeToInsert(score) {
   let node = document.createTextNode(score.aggregate + '');
