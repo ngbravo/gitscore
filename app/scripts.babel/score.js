@@ -80,3 +80,7 @@ window.onclick = function(e) {
 };
 
 window.onhashchange = load();
+
+window.addEventListener('popstate', function(event) {
+  window.location.href = event.target.location.href;
+}, false);
