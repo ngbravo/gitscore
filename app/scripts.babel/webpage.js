@@ -9,16 +9,6 @@ function onLoad() {
 }
 
 /**
- * Gets the repository score
- * @return {object} The score information
- */
-function getScore() {
-  return {
-    aggregate: 2,
-  };
-}
-
-/**
  * Verifies if the repository is public or private
  * @return {boolean} true if it is public, else false
  */
@@ -50,6 +40,14 @@ function writeScore(score) {
   let repoTopName = getSubtreeToInsert();
   repoTopName.insertBefore(nodeToInsert, repoTopName.firstChild);
 }
+
+// Use to load functions from other files. Clashes with linter
+// function loadScript(scriptName, callback) {
+//     let scriptEl = document.createElement('script');
+//     scriptEl.src = chrome.extension.getURL('scripts/' + scriptName + '.js');
+//     scriptEl.addEventListener('load', callback, false);
+//     document.head.appendChild(scriptEl);
+// }
 
 /**
  * Generates the DOM node that will be inserted in the document
