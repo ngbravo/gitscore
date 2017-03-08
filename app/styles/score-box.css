@@ -9,19 +9,19 @@
 }
 
 #score-box.high {
-  background-color: green;
+  background-color: #6c3;
   color: white;
   border: none;
 }
 
 #score-box.medium {
-  background-color: yellow;
-  color: black;
+  background-color: #fc3;
+  color: white;
   border: none;
 }
 
 #score-box.low {
-  background-color: red;
+  background-color: #f00;
   color: white;
   border: none;
 }
