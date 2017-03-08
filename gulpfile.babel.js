@@ -4,6 +4,7 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import del from 'del';
 import runSequence from 'run-sequence';
 import {stream as wiredep} from 'wiredep';
+import concat from 'gulp-concat';
 
 const $ = gulpLoadPlugins();
 
@@ -87,9 +88,16 @@ gulp.task('babel', () => {
       .pipe(gulp.dest('app/scripts'));
 });
 
+gulp.task('combine_webpage_content_scripts', function() {
+  let src = ['app/scripts/lib/score.js', 'app/scripts/webpage.js'];
+  return gulp.src(src)
+    .pipe(concat('webpage_combined.js'))
+    .pipe(gulp.dest('app/scripts'));
+});
+
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('watch', ['lint', 'babel'], () => {
+gulp.task('watch', ['lint', 'babel', 'combine_webpage_content_scripts'], () => {
   $.livereload.listen();
 
   gulp.watch([
@@ -100,7 +108,8 @@ gulp.task('watch', ['lint', 'babel'], () => {
     'app/_locales/**/*.json'
   ]).on('change', $.livereload.reload);
 
-  gulp.watch('app/scripts.babel/**/*.js', ['lint', 'babel']);
+  gulp.watch('app/scripts.babel/**/*.js', [
+    'lint', 'babel', 'combine_webpage_content_scripts']);
   gulp.watch('bower.json', ['wiredep']);
 });
 
@@ -125,7 +134,7 @@ gulp.task('package', function () {
 
 gulp.task('build', (cb) => {
   runSequence(
-    'lint', 'babel', 'chromeManifest',
+    'lint', 'babel', 'combine_webpage_content_scripts', 'chromeManifest',
     ['html', 'images', 'extras'],
     'size', cb);
 });

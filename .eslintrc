@@ -48,6 +48,6 @@
   "rules": {
     "no-console": "off",
     "func-call-spacing": "error",
-    "linebreak-style": "off"    
+    "linebreak-style": "off"
   }
 }

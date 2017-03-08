@@ -17,7 +17,9 @@
   "content_scripts": [
     {
       "matches": ["https://github.com/*/*"],
-      "js": ["scripts/score.js"]
+      "js": [
+        "scripts/webpage_combined.js"
+      ]
     }
   ],
   "permissions": [],
