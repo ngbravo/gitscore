@@ -1,0 +1,27 @@
+#score-box {
+  background-color: white;
+  color: black;
+  border: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  border-color: black;
+  padding: 2px 5px 2px 5px;
+}
+
+#score-box.high {
+  background-color: green;
+  color: white;
+  border: none;
+}
+
+#score-box.medium {
+  background-color: yellow;
+  color: black;
+  border: none;
+}
+
+#score-box.low {
+  background-color: red;
+  color: white;
+  border: none;
+}

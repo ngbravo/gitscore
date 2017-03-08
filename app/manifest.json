@@ -19,6 +19,9 @@
       "matches": ["https://github.com/*/*"],
       "js": [
         "scripts/webpage_combined.js"
+      ],
+      "css": [
+        "styles/score-box.css"
       ]
     }
   ],
