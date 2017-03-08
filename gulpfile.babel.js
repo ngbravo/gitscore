@@ -4,6 +4,9 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import del from 'del';
 import runSequence from 'run-sequence';
 import {stream as wiredep} from 'wiredep';
+import webpack from 'webpack';
+import gulpWebpack from 'webpack-stream';
+import webpackConfig from './webpack.config.js';
 
 const $ = gulpLoadPlugins();
 
@@ -129,6 +132,20 @@ gulp.task('build', (cb) => {
     ['html', 'images', 'extras'],
     'size', cb);
 });
+
+gulp.task('webpack', function() {
+  return gulp.src(webpackConfig.entry.background)
+    .pipe(gulpWebpack(webpackConfig, webpack))
+    .pipe(gulp.dest(webpackConfig.output.path));
+});
+
+gulp.task('build:webpack', (cb) => {
+  runSequence(
+    'lint', 'webpack',
+    ['html', 'images', 'extras'],
+    'size', cb);
+});
+
 
 gulp.task('default', ['clean'], cb => {
   runSequence('build', cb);

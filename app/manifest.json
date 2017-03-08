@@ -10,14 +10,13 @@
   "default_locale": "en",
   "background": {
     "scripts": [
-      "scripts/chromereload.js",
-      "scripts/background.js"
+      "scripts/background.bundle.js"
     ]
   },
   "content_scripts": [
     {
-      "matches": ["https://github.com/*/*"],
-      "js": ["scripts/score.js"]
+      "matches": ["<all_urls>"],
+      "js": ["scripts/content.bundle.js"]
     }
   ],
   "permissions": [],
