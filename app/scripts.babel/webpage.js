@@ -55,7 +55,10 @@ function writeScore(score) {
  * @return {object} The DOM node to insert
  */
 function getNodeToInsert(score) {
-  let node = document.createTextNode(score.aggregate + '');
+  console.log('pup');
+  let node = document.createElement('span');
+  node.id = 'score-box';
+  node.innerHTML = score.aggregate + '';
   return node;
 }
 
