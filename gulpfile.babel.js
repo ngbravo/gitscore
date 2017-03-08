@@ -88,7 +88,7 @@ gulp.task('babel', () => {
       .pipe(gulp.dest('app/scripts'));
 });
 
-gulp.task('combine_webpage_content_scripts', function() {
+gulp.task('combine_webpage_content_scripts', ['babel'], () => {
   let src = ['app/scripts/lib/score.js', 'app/scripts/webpage.js'];
   return gulp.src(src)
     .pipe(concat('webpage_combined.js'))
