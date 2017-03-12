@@ -15,6 +15,9 @@ gulp watch
 
 # Make a production version extension
 gulp build
+
+# Run all tests
+npm test
 ```
 
 ## Test Chrome Extension
