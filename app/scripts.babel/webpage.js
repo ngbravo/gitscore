@@ -1,5 +1,7 @@
 'use strict';
 
+import {getScore, getMaxScore, getMinScore} from './lib/score';
+
 /**
  * Starts the score calculation
  */

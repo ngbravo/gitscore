@@ -4,7 +4,7 @@
  * Gets the repository score
  * @return {object} The score information
  */
-function getScore() {
+export function getScore() {
   return {
     aggregate: 100,
   };
@@ -14,7 +14,7 @@ function getScore() {
  * Gets the maximum score
  * @return {Number} The maximum score
  */
-function getMaxScore() {
+export function getMaxScore() {
   return 100;
 }
 
@@ -22,6 +22,6 @@ function getMaxScore() {
  * Gets the minimum score
  * @return {Number} The minimum score
  */
-function getMinScore() {
+export function getMinScore() {
   return 0;
 }
