@@ -1,5 +1,6 @@
-let assert = require('chai').assert;
-let _score = require('../../app/scripts/lib/score');
+import {assert} from 'chai';
+import _score from '../../app/scripts.babel/github.content/score';
+import 'babel-polyfill';
 
 (function() {
   'use strict';

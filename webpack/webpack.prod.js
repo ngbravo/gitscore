@@ -6,17 +6,17 @@ const WriteFilePlugin = require('write-file-webpack-plugin');
 module.exports = {
   devtool: 'source-map',
   entry: {
-    background: path.join(__dirname, 'app', 'scripts.babel',
+    'background': path.join(__dirname, '..', 'app', 'scripts.babel',
       'background', 'index.js'),
-    content: path.join(__dirname, 'app', 'scripts.babel',
-      'content', 'index.js'),
-    options: path.join(__dirname, 'app', 'scripts.babel',
+    'github.content': path.join(__dirname, '..', 'app', 'scripts.babel',
+      'github.content', 'index.js'),
+    'options': path.join(__dirname, '..', 'app', 'scripts.babel',
       'options', 'index.js'),
-    popup: path.join(__dirname, 'app', 'scripts.babel',
+    'popup': path.join(__dirname, '..', 'app', 'scripts.babel',
       'popup', 'index.js'),
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, '../dist'),
     filename: 'scripts/[name].bundle.js',
   },
   module: {

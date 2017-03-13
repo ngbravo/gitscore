@@ -8,11 +8,13 @@ import {stream as wiredep} from 'wiredep';
 import webpack from 'webpack';
 import gulpWebpack from 'webpack-stream';
 import WebpackDevServer from 'webpack-dev-server';
-import webpackConfig from './webpack.config.js';
+import webpackProdConfig from './webpack/webpack.prod';
+import webpackDevConfig from './webpack/webpack.dev';
+
 
 const $ = gulpLoadPlugins();
 
-gulp.task('extras', () => {
+function extras(dest) {
   return gulp.src([
     'app/*.*',
     'app/_locales/**',
@@ -22,8 +24,11 @@ gulp.task('extras', () => {
   ], {
     base: 'app',
     dot: true
-  }).pipe(gulp.dest('dist'));
-});
+  }).pipe(gulp.dest(dest));
+}
+
+gulp.task('extras', () => extras('dist'));
+gulp.task('extras:dev', () => extras('temp'));
 
 function lint(files, options) {
   return () => {
@@ -39,7 +44,8 @@ gulp.task('lint', lint('app/scripts.babel/**/*.js', {
   }
 }));
 
-gulp.task('images', () => {
+function images(dest) {
+  {
   return gulp.src('app/images/**/*')
     .pipe($.if($.if.isFile, $.cache($.imagemin({
       progressive: true,
@@ -52,12 +58,16 @@ gulp.task('images', () => {
       console.log(err);
       this.end();
     })))
-    .pipe(gulp.dest('dist/images'));
-});
+    .pipe(gulp.dest(`${dest}/images`));
+}
+}
+
+gulp.task('images', () => images('dist'));
+gulp.task('images:dev', () => images('temp'));
 
 gulp.task('html', () => {
   return gulp.src('app/*.html')
-    .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
+    .pipe($.useref({searchPath: ['temp', 'app', '.']}))
     .pipe($.sourcemaps.init())
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.cleanCss({compatibility: '*'})))
@@ -92,7 +102,7 @@ gulp.task('babel', () => {
       .pipe(gulp.dest('app/scripts'));
 });
 
-gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
+gulp.task('clean', del.bind(null, ['temp', 'dist']));
 
 gulp.task('watch', ['lint', 'babel'], () => {
   $.livereload.listen();
@@ -136,22 +146,44 @@ gulp.task('build', (cb) => {
     'size', cb);
 });
 
-gulp.task('webpack', function() {
-  return gulp.src(webpackConfig.entry.background)
-    .pipe(gulpWebpack(webpackConfig, webpack))
-    .pipe(gulp.dest(webpackConfig.output.path));
+/**
+ * Webpack tasks
+ */
+
+gulp.task('webpack:dist', function() {
+  return gulp.src(webpackProdConfig.entry.background)
+    .pipe(gulpWebpack(webpackProdConfig, webpack))
+    .pipe(gulp.dest(webpackProdConfig.output.path));
+});
+
+gulp.task('webpack:dev', function() {
+  return gulp.src(webpackDevConfig.entry.background)
+    .pipe(gulpWebpack(webpackDevConfig, webpack))
+    .pipe(gulp.dest(webpackDevConfig.output.path));
 });
 
 gulp.task('build:webpack', (cb) => {
   runSequence(
-    'lint', 'clean', 'webpack', 'copy-manifest',
+    'lint', 'clean', 'copy-manifest', 'webpack',
     ['images', 'extras'],
+    'size', cb);
+});
+
+gulp.task('build:webpack:dev', (cb) => {
+  runSequence(
+    'lint', 'clean', 'copy-manifest:dev', 'webpack:dev',
+    ['images:dev', 'extras:dev'],
     'size', cb);
 });
 
 gulp.task('copy-manifest', function() {
   return gulp.src('app/manifest.json')
     .pipe(gulp.dest('dist'));
+});
+
+gulp.task('copy-manifest:dev', function() {
+  return gulp.src('app/manifest.json')
+    .pipe(gulp.dest('temp'));
 });
 
 gulp.task('webpack-dev-server', function(callback) {
@@ -164,7 +196,7 @@ gulp.task('webpack-dev-server', function(callback) {
     },
   };
   // Start a webpack-dev-server
-  new WebpackDevServer(webpack(webpackConfig), myConfig
+  new WebpackDevServer(webpack(webpackDevConfig), myConfig
   ).listen(8080, 'localhost', function(err) {
     if (err) throw new gutil.PluginError('webpack-dev-server', err);
       gutil.log('[webpack-dev-server]', 'http://localhost:8080/webpack-dev-server/index.html');
@@ -178,12 +210,14 @@ gulp.task('watch:webpack', () => {
     'app/images/**/*',
     'app/styles/**/*',
     'app/_locales/**/*.json',
-  ], ['build:webpack']);
+  ], ['build:webpack:dev']);
 });
 
 gulp.task('serve:webpack', (cb) => {
   runSequence(
-    'build:webpack', 'webpack-dev-server', 'watch:webpack',
+    'lint', 'clean', 'copy-manifest:dev',
+    ['images:dev', 'extras:dev'],
+    'webpack-dev-server', 'watch:webpack',
     cb);
 });
 
