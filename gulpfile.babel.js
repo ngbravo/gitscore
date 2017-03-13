@@ -164,7 +164,7 @@ gulp.task('webpack:dev', function() {
 
 gulp.task('build:webpack', (cb) => {
   runSequence(
-    'lint', 'clean', 'copy-manifest', 'webpack',
+    'lint', 'clean', 'copy-manifest', 'webpack:dist',
     ['images', 'extras'],
     'size', cb);
 });

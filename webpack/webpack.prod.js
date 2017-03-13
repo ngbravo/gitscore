@@ -46,17 +46,17 @@ module.exports = {
     }),
 
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'app', 'popup.html'),
+      template: path.join(__dirname, '..', 'app', 'popup.html'),
       filename: 'popup.html',
       chunks: ['popup'],
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'app', 'options.html'),
+      template: path.join(__dirname, '..', 'app', 'options.html'),
       filename: 'options.html',
       chunks: ['options'],
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'app', 'background.html'),
+      template: path.join(__dirname, '..', 'app', 'background.html'),
       filename: 'background.html',
       chunks: ['background'],
     }),
