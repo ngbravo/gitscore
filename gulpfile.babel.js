@@ -1,11 +1,13 @@
 // generated on 2017-03-05 using generator-chrome-extension 0.6.1
 import gulp from 'gulp';
+import gutil from 'gulp-util';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import del from 'del';
 import runSequence from 'run-sequence';
 import {stream as wiredep} from 'wiredep';
 import webpack from 'webpack';
 import gulpWebpack from 'webpack-stream';
+import WebpackDevServer from 'webpack-dev-server';
 import webpackConfig from './webpack.config.js';
 
 const $ = gulpLoadPlugins();
@@ -141,11 +143,52 @@ gulp.task('webpack', function() {
 
 gulp.task('build:webpack', (cb) => {
   runSequence(
-    'lint', 'webpack',
-    ['html', 'images', 'extras'],
+    'lint', 'clean', 'webpack', 'copy-manifest',
+    ['images', 'extras'],
     'size', cb);
 });
 
+gulp.task('copy-manifest', function() {
+  return gulp.src('app/manifest.json')
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('webpack-dev-server', function(callback) {
+  const myConfig = {
+    hot: true,
+    quiet: false,
+    noInfo: false,
+    stats: {
+      colors: true,
+    },
+  };
+  // Start a webpack-dev-server
+  new WebpackDevServer(webpack(webpackConfig), myConfig
+  ).listen(8080, 'localhost', function(err) {
+    if (err) throw new gutil.PluginError('webpack-dev-server', err);
+      gutil.log('[webpack-dev-server]', 'http://localhost:8080/webpack-dev-server/index.html');
+    });
+ });
+
+gulp.task('watch:webpack', () => {
+  return gulp.watch([
+    'app/*.html',
+    'app/scripts.babel/**/*.js',
+    'app/images/**/*',
+    'app/styles/**/*',
+    'app/_locales/**/*.json',
+  ], ['build:webpack']);
+});
+
+gulp.task('serve:webpack', (cb) => {
+  runSequence(
+    'build:webpack', 'webpack-dev-server', 'watch:webpack',
+    cb);
+});
+
+gulp.task('size', () => {
+  return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
+});
 
 gulp.task('default', ['clean'], cb => {
   runSequence('build', cb);

@@ -1,6 +1,7 @@
 {
   "name": "gitscore",
   "version": "0.0.1",
+  "options_page": "options.html",
   "manifest_version": 2,
   "description": "__MSG_appDescription__",
   "icons": {
@@ -15,7 +16,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["https://github.com/*/*"],
       "js": ["scripts/content.bundle.js"]
     }
   ],
