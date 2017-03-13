@@ -65,6 +65,7 @@ function images(dest) {
 gulp.task('images', () => images('dist'));
 gulp.task('images:dev', () => images('temp'));
 
+/* Deprecated */
 gulp.task('html', () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['temp', 'app', '.']}))
@@ -76,6 +77,7 @@ gulp.task('html', () => {
     .pipe(gulp.dest('dist'));
 });
 
+/* Deprecated */
 gulp.task('chromeManifest', () => {
   return gulp.src('app/manifest.json')
     .pipe($.chromeManifest({
@@ -94,36 +96,15 @@ gulp.task('chromeManifest', () => {
   .pipe(gulp.dest('dist'));
 });
 
-gulp.task('babel', () => {
-  return gulp.src('app/scripts.babel/**/*.js')
-      .pipe($.babel({
-        presets: ['es2015']
-      }))
-      .pipe(gulp.dest('app/scripts'));
-});
 
 gulp.task('clean', del.bind(null, ['temp', 'dist']));
 
-gulp.task('watch', ['lint', 'babel'], () => {
-  $.livereload.listen();
-
-  gulp.watch([
-    'app/*.html',
-    'app/scripts/**/*.js',
-    'app/images/**/*',
-    'app/styles/**/*',
-    'app/_locales/**/*.json'
-  ]).on('change', $.livereload.reload);
-
-  gulp.watch('app/scripts.babel/**/*.js', [
-    'lint', 'babel']);
-  gulp.watch('bower.json', ['wiredep']);
-});
-
+/* Deprecated */
 gulp.task('size', () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
+/* Deprecated */
 gulp.task('wiredep', () => {
   gulp.src('app/*.html')
     .pipe(wiredep({
@@ -138,14 +119,6 @@ gulp.task('package', function () {
       .pipe($.zip('gitscore-' + manifest.version + '.zip'))
       .pipe(gulp.dest('package'));
 });
-
-gulp.task('build', (cb) => {
-  runSequence(
-    'lint', 'babel', 'chromeManifest',
-    ['html', 'images', 'extras'],
-    'size', cb);
-});
-
 /**
  * Webpack tasks
  */
@@ -162,14 +135,14 @@ gulp.task('webpack:dev', function() {
     .pipe(gulp.dest(webpackDevConfig.output.path));
 });
 
-gulp.task('build:webpack', (cb) => {
+gulp.task('build', (cb) => {
   runSequence(
     'lint', 'clean', 'copy-manifest', 'webpack:dist',
     ['images', 'extras'],
     'size', cb);
 });
 
-gulp.task('build:webpack:dev', (cb) => {
+gulp.task('build:dev', (cb) => {
   runSequence(
     'lint', 'clean', 'copy-manifest:dev', 'webpack:dev',
     ['images:dev', 'extras:dev'],
@@ -203,21 +176,21 @@ gulp.task('webpack-dev-server', function(callback) {
     });
  });
 
-gulp.task('watch:webpack', () => {
+gulp.task('watch', () => {
   return gulp.watch([
     'app/*.html',
     'app/scripts.babel/**/*.js',
     'app/images/**/*',
     'app/styles/**/*',
     'app/_locales/**/*.json',
-  ], ['build:webpack:dev']);
+  ], ['build:dev']);
 });
 
-gulp.task('serve:webpack', (cb) => {
+gulp.task('serve', (cb) => {
   runSequence(
     'lint', 'clean', 'copy-manifest:dev',
     ['images:dev', 'extras:dev'],
-    'webpack-dev-server', 'watch:webpack',
+    'webpack-dev-server', 'watch',
     cb);
 });
 
