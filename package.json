@@ -17,6 +17,7 @@
     "José Ignacio Navarro (https://github.com/josencv)"
   ],
   "scripts": {
+    "pretest": "gulp build",
     "test": "mocha \"test/**/*.js\""
   },
   "devDependencies": {
