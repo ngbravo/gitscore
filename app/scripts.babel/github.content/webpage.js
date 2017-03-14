@@ -43,14 +43,6 @@ function writeScore(score) {
   repoTopName.insertBefore(nodeToInsert, repoTopName.firstChild);
 }
 
-// Use to load functions from other files. Clashes with linter
-// function loadScript(scriptName, callback) {
-//     let scriptEl = document.createElement('script');
-//     scriptEl.src = chrome.extension.getURL('scripts/' + scriptName + '.js');
-//     scriptEl.addEventListener('load', callback, false);
-//     document.head.appendChild(scriptEl);
-// }
-
 /**
  * Generates the DOM node that will be inserted in the document
  * @param {object} score The score values
