@@ -1,12 +1,15 @@
 let assert = require('chai').assert;
 let _modifyWebpage = require('../../app/scripts/lib/modify-github-webpage');
+let jsdom = require('jsdom-global');
+let readResFile = require('./../utils/file-reader').readResFile;
 
 (function() {
   'use strict';
 
   describe('Modify Github Webpage', function() {
     beforeEach(function() {
-      // mock document
+       jsdom();
+       document.body.innerHTML = readResFile('github_public.html');
     });
 
     describe('writeScore', function() {

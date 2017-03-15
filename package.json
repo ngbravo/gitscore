@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "pretest": "gulp build",
-    "test": "mocha \"test/**/*.js\""
+    "test": "mocha \"test/**/*.js\" -r jsdom-global/register"
   },
   "devDependencies": {
     "babel-core": "^6.7.2",
@@ -27,6 +27,7 @@
     "del": "^2.2.0",
     "eslint": "^3.17.0",
     "eslint-config-google": "^0.7.1",
+    "filereader": "^0.10.3",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-cache": "^0.4.3",
@@ -43,6 +44,8 @@
     "gulp-uglify": "^1.5.3",
     "gulp-useref": "^3.0.8",
     "gulp-zip": "^3.2.0",
+    "jsdom": "9.12.0",
+    "jsdom-global": "2.1.1",
     "main-bower-files": "^2.11.1",
     "mocha": "^3.2.0",
     "run-sequence": "^1.1.5",
