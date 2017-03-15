@@ -6,12 +6,7 @@ module.exports = {
   readResFile: function(file) {
     const relFilePath = 'test/res/' + file;
 
-    fs.readFile(relFilePath, 'utf8', function(err, data) {
-      if (err) {
-        throw err;
-      }
-      console.log(data);
-      return data;
-    });
+    let data = fs.readFileSync(relFilePath, 'utf8');
+    return data;
   },
 };

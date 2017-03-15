@@ -23,7 +23,10 @@ let readResFile = require('./../utils/file-reader').readResFile;
       it('should assign the correct class to a high score');
       it('should assign the correct class to a medium score');
       it('should assign the correct class to a low score');
-      it('should assign the correct class to an invalid score');
+      it('should assign the correct class to an invalid score', function() {
+        const score = {aggregate: -3};
+        _modifyWebpage.writeScore(score);
+      });
     });
   });
 })();
