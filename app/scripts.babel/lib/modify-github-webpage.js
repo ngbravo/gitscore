@@ -56,6 +56,8 @@ function getNodeToInsert(score) {
     } else {
       node.className = 'low';
     }
+  } else {
+    node.className = 'invalid';
   }
 
   return node;
