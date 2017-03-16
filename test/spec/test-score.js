@@ -5,17 +5,17 @@ let _score = require('../../app/scripts/lib/score');
   'use strict';
 
   describe('Score', function() {
-    describe('getMaxScore()', function() {
+    describe('getMaxScore', function() {
       it('should be higher than max score', function() {
         assert.isAbove(_score.getMaxScore(), _score.getMinScore());
       });
     });
-    describe('getMinScore()', function() {
+    describe('getMinScore', function() {
       it('should not be negative', function() {
         assert.isAtLeast(_score.getMinScore(), 0);
       });
     });
-    describe('getScore()', function() {
+    describe('getScore', function() {
       it('should have all its elements as numbers', function() {
         let fields = ['aggregate'];
         let score = _score.getScore();
