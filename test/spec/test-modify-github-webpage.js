@@ -4,6 +4,22 @@ let _score = require('../../app/scripts/lib/score');
 let jsdom = require('jsdom-global');
 let readResFile = require('./../utils/file-reader').readResFile;
 
+const testScores = {
+  high: {
+    aggregate: _score.getMaxScore(),
+  },
+  medium: {
+    aggregate: _score.getMinScore() +
+      (_score.getMinScore() + _score.getMaxScore()) / 2,
+  },
+  low: {
+    aggregate: _score.getMinScore(),
+  },
+  invalid: {
+    aggregate: _score.getMinScore() - 1,
+  },
+};
+
 (function() {
   'use strict';
 
@@ -14,55 +30,73 @@ let readResFile = require('./../utils/file-reader').readResFile;
     });
 
     describe('writeScore', function() {
-      it('should attach the score to a public repository');
-      it('should attach the score to a private repository');
+      const placementTests = [
+        {
+          repositoryType: 'public',
+          expectedPosition: 0,
+        },
+        {
+          repositoryType: 'private',
+          expectedPosition: 0,
+        },
+      ];
+      placementTests.forEach(function(placementTest) {
+        it('should attach the score to the right of a ' +
+        placementTest.repositoryType + ' repository\'s name', function() {
+          // load private HTML version instead of default public one
+          if (placementTest.repositoryType === 'private') {
+            document.body.innerHTML = readResFile('github_private.html');
+          }
 
-      it('should attach the score left to the name');
+          // check that score-box is not present beforehand
+          assert.isNotOk(document.getElementById('score-box'));
 
-      it('should assign the correct id to score-box');
+          _modifyWebpage.writeScore(testScores.medium);
 
-      it('should assign the correct class to a high score', function() {
-        let highScore = _score.getMaxScore();
+          // assert score-box is now present
+          assert.isOk(document.getElementById('score-box'));
 
-        const score = {aggregate: highScore};
-        _modifyWebpage.writeScore(score);
-
-        let scoreBox = document.getElementById('score-box');
-
-        assert.equal(scoreBox.className, 'high');
+          // assert position
+          const targetNode = document.getElementsByClassName(
+            placementTest.repositoryType)[0];
+          const expectedPosition = placementTest.expectedPosition;
+          assert.equal(targetNode.childNodes[expectedPosition].id, 'score-box');
+        });
       });
 
-      it('should assign the correct class to a medium score', function() {
-        let medScore = _score.getMinScore();
-        medScore += (_score.getMinScore() + _score.getMaxScore()) / 2;
+      const classTests = [
+        {
+          score: testScores.high,
+          expected: 'high',
+        },
+        {
+          score: testScores.medium,
+          expected: 'medium',
+        },
+        {
+          score: testScores.low,
+          expected: 'low',
+        },
+        {
+          score: testScores.invalid,
+          expected: 'invalid',
+        },
+      ];
+      classTests.forEach(function(classTest) {
+        it('should assign the correct class to a ' + classTest.expected +
+        ' score', function() {
+          const score = classTest.score;
 
-        const score = {aggregate: medScore};
-        _modifyWebpage.writeScore(score);
+          _modifyWebpage.writeScore(score);
 
-        let scoreBox = document.getElementById('score-box');
+          let scoreBox = document.getElementById('score-box');
 
-        assert.equal(scoreBox.className, 'medium');
-      });
+          // assert the score was properly written
+          assert.equal(classTest.score.aggregate, scoreBox.innerHTML);
 
-      it('should assign the correct class to a low score', function() {
-        let lowScore = _score.getMinScore();
-
-        const score = {aggregate: lowScore};
-        _modifyWebpage.writeScore(score);
-
-        let scoreBox = document.getElementById('score-box');
-
-        assert.equal(scoreBox.className, 'low');
-      });
-
-      it('should assign the correct class to an invalid score', function() {
-        const invalidScore = _score.getMinScore() - 1;
-        const score = {aggregate: invalidScore};
-        _modifyWebpage.writeScore(score);
-
-        let scoreBox = document.getElementById('score-box');
-
-        assert.equal(scoreBox.className, 'invalid');
+          // assert the score's class is OK
+          assert.equal(scoreBox.className, classTest.expected);
+        });
       });
     });
   });
