@@ -62,3 +62,7 @@ function getNodeToInsert(score) {
 
   return node;
 }
+
+export default {
+  writeScore,
+};

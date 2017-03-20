@@ -1,22 +1,22 @@
-let assert = require('chai').assert;
-let _modifyWebpage = require('../../app/scripts.babel/lib/modify-github-webpage');
-let _score = require('../../app/scripts.babel/lib/score');
-let jsdom = require('jsdom-global');
-let readResFile = require('./../utils/file-reader').readResFile;
+import {assert} from 'chai';
+import {writeScore} from '../../app/scripts.babel/lib/modify-github-webpage';
+import {getMinScore, getMaxScore} from '../../app/scripts.babel/lib/score';
+import jsdom from 'jsdom-global';
+import {readResFile} from './../utils/file-reader';
 
 const testScores = {
   high: {
-    aggregate: _score.getMaxScore(),
+    aggregate: getMaxScore(),
   },
   medium: {
-    aggregate: _score.getMinScore() +
-      (_score.getMinScore() + _score.getMaxScore()) / 2,
+    aggregate: getMinScore() +
+      (getMinScore() + getMaxScore()) / 2,
   },
   low: {
-    aggregate: _score.getMinScore(),
+    aggregate: getMinScore(),
   },
   invalid: {
-    aggregate: _score.getMinScore() - 1,
+    aggregate: getMinScore() - 1,
   },
 };
 
@@ -51,7 +51,7 @@ const testScores = {
           // check that score-box is not present beforehand
           assert.isNotOk(document.getElementById('score-box'));
 
-          _modifyWebpage.writeScore(testScores.medium);
+          writeScore(testScores.medium);
 
           // assert score-box is now present
           assert.isOk(document.getElementById('score-box'));
@@ -87,7 +87,7 @@ const testScores = {
         ' score', function() {
           const score = classTest.score;
 
-          _modifyWebpage.writeScore(score);
+          writeScore(score);
 
           let scoreBox = document.getElementById('score-box');
 
