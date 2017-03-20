@@ -1,6 +1,6 @@
 let assert = require('chai').assert;
-let _modifyWebpage = require('../../app/scripts/lib/modify-github-webpage');
-let _score = require('../../app/scripts/lib/score');
+let _modifyWebpage = require('../../app/scripts.babel/lib/modify-github-webpage');
+let _score = require('../../app/scripts.babel/lib/score');
 let jsdom = require('jsdom-global');
 let readResFile = require('./../utils/file-reader').readResFile;
 

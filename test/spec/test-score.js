@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import _score from '../../app/scripts.babel/github.content/score';
+import _score from '../../app/scripts.babel/lib/score';
 import 'babel-polyfill';
 
 (function() {
