@@ -49,7 +49,9 @@ module.exports = {
       chunks: ['background'],
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new WriteFilePlugin(),
+    new WriteFilePlugin({
+      log: false,
+    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),

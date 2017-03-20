@@ -14,7 +14,8 @@
   ],
   "contributors": [
     "Nikolas Bravo (https://github.com/ngbravo)",
-    "José Ignacio Navarro (https://github.com/josencv)"
+    "José Ignacio Navarro (https://github.com/josencv)",
+    "Nicolás Risso (https://github.com/narisso)"
   ],
   "scripts": {
     "test": "mocha --compilers js:babel-core/register \"test/**/*.js\""

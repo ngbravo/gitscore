@@ -166,6 +166,7 @@ gulp.task('webpack-dev-server', function(callback) {
     noInfo: false,
     stats: {
       colors: true,
+      chunks: false,
     },
   };
   // Start a webpack-dev-server
@@ -180,6 +181,7 @@ gulp.task('watch', () => {
   return gulp.watch([
     'app/*.html',
     'app/scripts.babel/**/*.js',
+    'app/scripts.babel/**/*.css',
     'app/images/**/*',
     'app/styles/**/*',
     'app/_locales/**/*.json',
