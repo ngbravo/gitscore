@@ -25,3 +25,9 @@ export function getMaxScore() {
 export function getMinScore() {
   return 0;
 }
+
+export default {
+  getScore,
+  getMaxScore,
+  getMinScore,
+};

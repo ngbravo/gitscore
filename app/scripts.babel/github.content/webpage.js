@@ -1,7 +1,7 @@
 'use strict';
 
-import getScore from './lib/score';
-import writeScore from './lib/modify-github-webpage';
+import {getScore} from '../lib/score';
+import {writeScore} from '../lib/modify-github-webpage';
 
 /**
  * Starts the score calculation

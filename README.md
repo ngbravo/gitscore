@@ -7,11 +7,8 @@
 ## Getting Started
 
 ```sh
-# Transform updated source written by ES2015
-gulp babel
-
-# or Using watch to update source continuously
-gulp watch
+# Watch through webpack to update source continuously
+gulp serve
 
 # Make a production version extension
 gulp build
@@ -29,22 +26,18 @@ Need more information about Chrome Extension? Please visit [Google Chrome Extens
 
 ## gulp tasks
 
-### Babel
+### Build
 
-The generator supports ES 2015 syntax through babel transforming. You may have a source files in `script.babel` if your project has been generated without `--no-babel` options. While developing, When those of source has been changed, `gulp babel` should be run before test and run a extension on Chrome.
-
-```sh
-gulp babel
-```
-
-If you would like to have a continuous transforming by babel you can use `watch` task
-
-### Watch
-
-Watch task helps you reduce your efforts during development extensions. If the task detects your changes of source files, re-compile your sources automatically or Livereload([chromereload.js](https://github.com/yeoman/generator-chrome-extension/blob/master/app/templates/scripts/chromereload.js)) reloads your extension. If you would like to know more about Live-reload and preview of Yeoman? Please see [Getting started with Yeoman and generator-webapp](http://youtu.be/zBt2g9ekiug?t=3m51s) for your understanding.
+Builds the extension through webpack, you can manage build configuration in webpack.dev.js or webpack.prod.js.
 
 ```bash
-gulp watch
+
+# Make a production version extension on dist folder
+gulp build
+
+# Make a development version extension on temo folder
+gulp build:dev
+
 ```
 
 ### Build and Package
