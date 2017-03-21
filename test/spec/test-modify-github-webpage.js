@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {writeScore} from '../../app/scripts.babel/lib/modify-github-webpage';
+import {tryWriteScore} from '../../app/scripts.babel/lib/modify-github-webpage';
 import {getMinScore, getMaxScore} from '../../app/scripts.babel/lib/score';
 import jsdom from 'jsdom-global';
 import {readResFile} from './../utils/file-reader';
@@ -51,7 +51,7 @@ const testScores = {
           // check that score-box is not present beforehand
           assert.isNotOk(document.getElementById('score-box'));
 
-          writeScore(testScores.medium);
+          tryWriteScore(testScores.medium);
 
           // assert score-box is now present
           assert.isOk(document.getElementById('score-box'));
@@ -87,7 +87,7 @@ const testScores = {
         ' score', function() {
           const score = classTest.score;
 
-          writeScore(score);
+          tryWriteScore(score);
 
           let scoreBox = document.getElementById('score-box');
 
@@ -97,6 +97,16 @@ const testScores = {
           // assert the score's class is OK
           assert.equal(scoreBox.className, classTest.expected);
         });
+      });
+
+      it('should not try and write score in invalid HTML', function() {
+        document.body.innerHTML = 'this is invalid';
+        assert.isFalse(tryWriteScore(testScores.medium));
+      });
+
+      it('should write only one score', function() {
+        assert.isTrue(tryWriteScore(testScores.medium));
+        assert.isFalse(tryWriteScore(testScores.medium));
       });
     });
   });

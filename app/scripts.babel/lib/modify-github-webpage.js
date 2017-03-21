@@ -3,13 +3,42 @@
 import {getMaxScore, getMinScore} from './score';
 
 /**
+ * Tries to write the score block to the DOM
+ * @param {object} score The score values
+ * @return {boolean} if the score block is successfully written
+ */
+export function tryWriteScore(score) {
+  if (!canWrite() || alreadyWritten()) {
+    return false;
+  }
+  writeScore(score);
+  return alreadyWritten();
+}
+
+/**
  * Writes the score block to the DOM
  * @param {object} score The score values
  */
-export function writeScore(score) {
+function writeScore(score) {
   let nodeToInsert = getNodeToInsert(score);
   let repoTopName = getSubtreeToInsert();
   repoTopName.insertBefore(nodeToInsert, repoTopName.firstChild);
+}
+
+/**
+* Checks if where #score-box is supposed to go is available
+* @return {boolean}
+*/
+function canWrite() {
+  return(getSubtreeToInsert() !== undefined);
+}
+
+/**
+* Checks if #score-box is in the current HTML
+* @return {boolean}
+*/
+function alreadyWritten() {
+  return(document.getElementById('score-box') !== null);
 }
 
 /**
