@@ -14,6 +14,11 @@ import webpackDevConfig from './webpack/webpack.dev';
 
 const $ = gulpLoadPlugins();
 
+/**
+* Moves extras to dest
+* @param {string} dest destination directory
+* @return {object} a gulp pipable object
+*/
 function extras(dest) {
   return gulp.src([
     'app/*.*',
@@ -23,13 +28,19 @@ function extras(dest) {
     '!app/*.html',
   ], {
     base: 'app',
-    dot: true
+    dot: true,
   }).pipe(gulp.dest(dest));
 }
 
 gulp.task('extras', () => extras('dist'));
 gulp.task('extras:dev', () => extras('temp'));
 
+/**
+* Moves extras to dest
+* @param {string} files files to lint
+* @param {string} options lint options
+* @return {object} a gulp pipable object
+*/
 function lint(files, options) {
   return () => {
     return gulp.src(files)
@@ -40,10 +51,15 @@ function lint(files, options) {
 
 gulp.task('lint', lint('app/scripts.babel/**/*.js', {
   env: {
-    es6: true
-  }
+    es6: true,
+  },
 }));
 
+/**
+* Processes images
+* @param {string} dest destination directory
+* @return {object} a gulp pipable object
+*/
 function images(dest) {
   {
   return gulp.src('app/images/**/*')
@@ -52,7 +68,7 @@ function images(dest) {
       interlaced: true,
       // don't remove IDs from SVGs, they are often used
       // as hooks for embedding and styling
-      svgoPlugins: [{cleanupIDs: false}]
+      svgoPlugins: [{cleanupIDs: false}],
     }))
     .on('error', function(err) {
       console.log(err);
@@ -73,7 +89,8 @@ gulp.task('html', () => {
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.cleanCss({compatibility: '*'})))
     .pipe($.sourcemaps.write())
-    .pipe($.if('*.html', $.htmlmin({removeComments: true, collapseWhitespace: true})))
+    .pipe($.if('*.html',
+      $.htmlmin({removeComments: true, collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
 
@@ -85,9 +102,9 @@ gulp.task('chromeManifest', () => {
       background: {
         target: 'scripts/background.js',
         exclude: [
-          'scripts/chromereload.js'
-        ]
-      }
+          'scripts/chromereload.js',
+        ],
+      },
   }))
   .pipe($.if('*.css', $.cleanCss({compatibility: '*'})))
   .pipe($.if('*.js', $.sourcemaps.init()))
@@ -108,13 +125,13 @@ gulp.task('size', () => {
 gulp.task('wiredep', () => {
   gulp.src('app/*.html')
     .pipe(wiredep({
-      ignorePath: /^(\.\.\/)*\.\./
+      ignorePath: /^(\.\.\/)*\.\./,
     }))
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('package', function () {
-  var manifest = require('./dist/manifest.json');
+gulp.task('package', function() {
+  let manifest = require('./dist/manifest.json');
   return gulp.src('dist/**')
       .pipe($.zip('gitscore-' + manifest.version + '.zip'))
       .pipe(gulp.dest('package'));
@@ -200,6 +217,6 @@ gulp.task('size', () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
-gulp.task('default', ['clean'], cb => {
+gulp.task('default', ['clean'], (cb) => {
   runSequence('build', cb);
 });
