@@ -4,7 +4,7 @@
   "description": "Chrome Extensions that assigns a score to GitHub repositories",
   "private": true,
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=4.0"
   },
   "keywords": [
     "chrome extension",
