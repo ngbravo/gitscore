@@ -1,5 +1,6 @@
 import {assert} from 'chai';
-import {writeScore} from '../../app/scripts.babel/lib/modify-github-webpage';
+import {tryWriteScore, isScoreWritten}
+  from '../../app/scripts.babel/lib/modify-github-webpage';
 import {getMinScore, getMaxScore} from '../../app/scripts.babel/lib/score';
 import jsdom from 'jsdom-global';
 import {readResFile} from './../utils/file-reader';
@@ -17,6 +18,9 @@ const testScores = {
   },
   invalid: {
     aggregate: getMinScore() - 1,
+  },
+  default: {
+    aggregate: getMaxScore(),
   },
 };
 
@@ -51,7 +55,7 @@ const testScores = {
           // check that score-box is not present beforehand
           assert.isNotOk(document.getElementById('score-box'));
 
-          writeScore(testScores.medium);
+          tryWriteScore(testScores.default);
 
           // assert score-box is now present
           assert.isOk(document.getElementById('score-box'));
@@ -87,7 +91,7 @@ const testScores = {
         ' score', function() {
           const score = classTest.score;
 
-          writeScore(score);
+          tryWriteScore(score);
 
           let scoreBox = document.getElementById('score-box');
 
@@ -97,6 +101,29 @@ const testScores = {
           // assert the score's class is OK
           assert.equal(scoreBox.className, classTest.expected);
         });
+      });
+
+      it('should not try and write score in invalid HTML', function() {
+        document.body.innerHTML = 'this is invalid';
+        assert.isFalse(tryWriteScore(testScores.default));
+      });
+
+      it('should write only one score', function() {
+        assert.isTrue(tryWriteScore(testScores.default));
+        assert.isFalse(tryWriteScore(testScores.default));
+      });
+
+      it('should detect if score is written or not', function() {
+        // score should not be at first
+        assert.isFalse(isScoreWritten());
+
+        // now we write the score and expect it to be there
+        tryWriteScore(testScores.default);
+        assert.isTrue(isScoreWritten());
+
+        // now remove
+        document.getElementById('score-box').remove();
+        assert.isFalse(isScoreWritten());
       });
     });
   });
