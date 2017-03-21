@@ -8,11 +8,11 @@ import {getMaxScore, getMinScore} from './score';
  * @return {boolean} if the score block is successfully written
  */
 export function tryWriteScore(score) {
-  if (!canWrite() || alreadyWritten()) {
+  if (!canWrite() || isScoreWritten()) {
     return false;
   }
   writeScore(score);
-  return alreadyWritten();
+  return isScoreWritten();
 }
 
 /**
@@ -37,7 +37,7 @@ function canWrite() {
 * Checks if #score-box is in the current HTML
 * @return {boolean}
 */
-function alreadyWritten() {
+export function isScoreWritten() {
   return(document.getElementById('score-box') !== null);
 }
 
@@ -94,4 +94,5 @@ function getNodeToInsert(score) {
 
 export default {
   writeScore,
+  isScoreWritten,
 };

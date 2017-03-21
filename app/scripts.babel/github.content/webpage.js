@@ -1,10 +1,10 @@
 'use strict';
 
-import $ from 'jquery';
 import {getScore} from '../lib/score';
-import {tryWriteScore} from '../lib/modify-github-webpage';
+import {tryWriteScore, isScoreWritten} from '../lib/modify-github-webpage';
 
 let score;
+
 /**
  * Starts the score calculation
  */
@@ -21,20 +21,8 @@ export function load() {
 * TODO: this without polling
 */
 function observeRemoval() {
-    let currenthtml;
-    let latesthtml;
-
-    $.get(window.location.href, function(data) {
-        currenthtml = data;
-        latesthtml = data;
-    });
-
     setInterval(function() {
-        $.get(window.location.href, function(data) {
-            latesthtml = data;
-        });
-
-        if(currenthtml != latesthtml) {
+        if(!isScoreWritten()) {
             tryWriteScore(score);
         }
     }, 1000);
