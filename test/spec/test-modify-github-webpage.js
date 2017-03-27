@@ -108,6 +108,11 @@ const testScores = {
         assert.isFalse(tryWriteScore(testScores.default));
       });
 
+      it('should should not write score in authorization screen', function() {
+        document.body.innerHTML = readResFile('github_oauth.html');
+        assert.isFalse(tryWriteScore(testScores.default));
+      });
+
       it('should write only one score', function() {
         assert.isTrue(tryWriteScore(testScores.default));
         assert.isFalse(tryWriteScore(testScores.default));
