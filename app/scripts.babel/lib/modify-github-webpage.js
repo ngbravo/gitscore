@@ -8,7 +8,7 @@ import {getMaxScore, getMinScore} from './score';
  * @return {boolean} if the score block is successfully written
  */
 export function tryWriteScore(score) {
-  if (!canWrite() || isScoreWritten()) {
+  if (!shouldWrite()) {
     return false;
   }
   writeScore(score);
@@ -26,11 +26,27 @@ function writeScore(score) {
 }
 
 /**
+* Checks if #score-box should be placed in the current HTML
+* @return {boolean}
+*/
+function shouldWrite() {
+  return(canWrite() && !isScoreWritten());
+}
+
+/**
 * Checks if where #score-box is supposed to go is available
 * @return {boolean}
 */
 function canWrite() {
-  return(getSubtreeToInsert() !== undefined);
+  let subtree = getSubtreeToInsert();
+  if(subtree === undefined) {
+    return false;
+
+    // Checks if this is the OAuth screen
+  } else if(subtree.classList.contains('oauth-repo-permissions')) {
+    return false;
+  }
+  return true;
 }
 
 /**
