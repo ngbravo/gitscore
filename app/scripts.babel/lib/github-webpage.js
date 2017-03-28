@@ -1,6 +1,8 @@
 'use strict';
 
-import {getMaxScore, getMinScore} from './score';
+import {getScore, getMaxScore, getMinScore} from './score';
+
+let repositoryData;
 
 /**
  * Tries to write the score block to the DOM
@@ -11,6 +13,9 @@ export function tryWriteScore(score) {
   if (!shouldWrite()) {
     return false;
   }
+  const repoData = getRepositoryData();
+  score = getScore(repoData.username, repoData.repository);
+
   writeScore(score);
   return isScoreWritten();
 }
@@ -20,9 +25,30 @@ export function tryWriteScore(score) {
  * @param {object} score The score values
  */
 function writeScore(score) {
+  const repoData = getRepositoryData();
+  score = getScore(repoData.username, repoData.repository);
+
   let nodeToInsert = getNodeToInsert(score);
   let repoTopName = getSubtreeToInsert();
   repoTopName.insertBefore(nodeToInsert, repoTopName.firstChild);
+}
+
+/**
+* Sets repoData, or gets it if there
+* @return {object} Repository's user and name
+*/
+function getRepositoryData() {
+  if(!repositoryData) {
+    const subtree = getSubtreeToInsert();
+    let unifiedData = subtree.getElementsByTagName('strong')[0].childNodes[0];
+    unifiedData = unifiedData.getAttribute('href').split('/');
+    repositoryData = {
+      username: unifiedData[1],
+      repository: unifiedData[2],
+    };
+  }
+
+  return repositoryData;
 }
 
 /**

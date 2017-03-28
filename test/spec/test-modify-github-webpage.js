@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {tryWriteScore, isScoreWritten}
-  from '../../app/scripts.babel/lib/modify-github-webpage';
+  from '../../app/scripts.babel/lib/github-webpage';
 import {getMinScore, getMaxScore} from '../../app/scripts.babel/lib/score';
 import jsdom from 'jsdom-global';
 import {readResFile} from './../utils/file-reader';
