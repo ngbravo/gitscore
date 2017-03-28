@@ -14,7 +14,7 @@ export function getScore(username, repository) {
   if(score) {
     return score;
   }
-  
+
   console.log(username);
   console.log(repository);
   console.log(githubAPI.getRepository(username, repository));
