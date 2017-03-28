@@ -14,7 +14,9 @@ export function tryWriteScore(score) {
     return false;
   }
   const repoData = getRepositoryData();
-  score = getScore(repoData.username, repoData.repository);
+  if(!score) {
+    score = getScore(repoData.username, repoData.repository);
+  }
 
   writeScore(score);
   return isScoreWritten();
@@ -26,7 +28,9 @@ export function tryWriteScore(score) {
  */
 function writeScore(score) {
   const repoData = getRepositoryData();
-  score = getScore(repoData.username, repoData.repository);
+  if(!score) {
+    score = getScore(repoData.username, repoData.repository);
+  }
 
   let nodeToInsert = getNodeToInsert(score);
   let repoTopName = getSubtreeToInsert();

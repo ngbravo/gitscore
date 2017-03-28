@@ -20,7 +20,7 @@ import 'babel-polyfill';
     describe('getScore', function() {
       it('should have all its elements as numbers', function() {
         let fields = ['aggregate'];
-        let score = getScore();
+        let score = getScore('ngbravo', 'gitscore');
         for (let i = 0; i < fields.length; i++) {
           const field = fields[i];
           assert.property(score, field);
