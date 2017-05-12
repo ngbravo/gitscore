@@ -1,18 +1,12 @@
 'use strict';
 
-import {getScore} from '../lib/score';
-import {tryWriteScore, isScoreWritten} from '../lib/modify-github-webpage';
-
-let score;
+import {tryWriteScore, isScoreWritten} from '../lib/github-webpage';
 
 /**
  * Starts the score calculation
  */
 export function load() {
-  if(!score) {
-    score = getScore();
-  }
-  tryWriteScore(score);
+  tryWriteScore();
   observeRemoval();
 }
 
@@ -23,7 +17,7 @@ export function load() {
 function observeRemoval() {
     setInterval(function() {
         if(!isScoreWritten()) {
-            tryWriteScore(score);
+            tryWriteScore();
         }
     }, 1000);
 }
