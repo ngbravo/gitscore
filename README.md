@@ -36,7 +36,7 @@ Builds the extension through webpack, you can manage build configuration in webp
 # Make a production version extension on dist folder
 gulp build
 
-# Make a development version extension on temo folder
+# Make a development version extension on temp folder
 gulp build:dev
 
 ```
